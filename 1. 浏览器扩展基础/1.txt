@@ -1,23 +1,31 @@
-1.1 Getting to Know Browser Extensions
-Extension: changes how the browser behaves, looks, or interacts with websites, like an app for your browser.
+# 📘 1.1 Getting to Know Browser Extensions
 
-Structure:
+A **browser extension** changes how the browser behaves, looks, or interacts with websites — like an **app for your browser**.
+
+## 🧱 Folder Structure Example
+
+```
 my-extension/
-├── manifest.json          # 🧭 The config file that defines the extension
-├── background.js          # ⚙️ Runs in the background (via service worker)
+├── manifest.json          # 🧭 Extension configuration
+├── background.js          # ⚙️ Background script (service worker)
 ├── content.js             # 📄 Injected into web pages (DOM manipulation)
-├── popup.html             # 🖼 The popup UI (opens when you click the extension icon)
-├── popup.js               # 🎮 Logic for the popup
-├── styles.css             # 🎨 Styles for popup or content scripts
+├── popup.html             # 🖼 UI shown when clicking the extension icon
+├── popup.js               # 🎮 Logic for the popup UI
+├── styles.css             # 🎨 Styles for popup or injected scripts
 ├── icon.png               # 🖼 Toolbar or store icon
-└── assets/                # 📁 Optional folder for images/fonts/etc.
+└── assets/                # 📁 Optional images, fonts, etc.
+```
 
-manifest.json - extension configuration
-What the extension is
-What it does
-What permissions it needs
-Which files and scripts it uses
+## 📄 `manifest.json` – Extension Configuration
 
+Defines:
+
+* What the extension is
+* What it does
+* What permissions it needs
+* Which files/scripts it uses
+
+```json
 {
   "manifest_version": 3,
   "name": "My First Extension",
@@ -42,56 +50,65 @@ Which files and scripts it uses
     "48": "icon.png"
   }
 }
+```
 
+---
 
-1.2 Capabilities of Browser Extensions
-API Summary
-chrome.accessibilityFeatures – Manage Chrome's accessibility features (e.g., font scaling, captions).
-chrome.action – Control the toolbar icon (badge, popup, title) for Manifest V3 (Chrome 88+).
-chrome.alarms – Schedule your background tasks periodically or at a specific time. 
-chrome.bookmarks – Create, categorize, and manage browser bookmarks. 
-chrome.browsingData – Programmatically clear history, cache, cookies, etc. 
-chrome.commands – Define keyboard shortcuts in manifest. 
-chrome.contentSettings – Control site permissions (cookies, JavaScript, etc.)
-chrome.contextMenus – Add custom entries to right-click menus. 
-chrome.cookies – Read/write cookies and listen to changes.
-chrome.debugger – Use DevTools Protocol via tabs.
-chrome.declarativeContent – React to page content without direct script injection.
-chrome.desktopCapture – Capture screen, window, or tab content.
-chrome.dom – DOM manipulation with elevated privileges.
-chrome.downloads – Control downloads programmatically.
-chrome.events – Standard event interfaces for extension callbacks.
-chrome.extension – Utilities for messaging and view management.
-chrome.extensionTypes – Type definitions used across APIs. 
-chrome.fontSettings – Change browser font preferences.
-chrome.gcm – Firebase Cloud Messaging support.
-chrome.history – View and manipulate browser history.
-chrome.i18n – Support multiple languages in UI.
-chrome.identity – OAuth2 and user identity workflows. 
-chrome.idle – Detect when the user or system is inactive.
-chrome.instanceID – Unique ID for each extension instance.
-chrome.management – Query and control installed extensions/apps. 
-chrome.notifications – Display system notifications.
-chrome.offscreen – Use hidden documents for DOM or WebGL work.
-chrome.runtime – Lifecycle, messaging, metadata.
-chrome.permissions – Request and check permissions at runtime.
-chrome.scripting – Inject scripts/styles in MV3.
-chrome.sidePanel – Add a side panel in Chrome’s UI. 
-chrome.storage – Store user data (local, sync, session). 
-chrome.tabs – Manage browser tabs (create, query, modify).
-chrome.userScripts – Manage programmatic injection of scripts. 
-chrome.webNavigation – Monitor navigation events in frames.
-chrome.webRequest – Observe or modify HTTP requests. 
-chrome.windows – Control browser windows (open, resize).
+# 🚀 1.2 Capabilities of Browser Extensions
 
-1.3 Real-World Use Cases
-Ad Blocking：	uBlock Origin, Adblock Plus
-Password Management：	Bitwarden, LastPass, 1Password
-Security & Privacy：	HTTPS Everywhere, DuckDuckGo Privacy Essentials
-Productivity：	Notion Web Clipper, Todoist, Momentum
-Developer Tools：	React DevTools, JSON Viewer, Wappalyzer
-Translation：	Google Translate, DeepL
-Shopping：	Honey, Rakuten
-Custom Styling：	Stylus, Dark Reader
-Automation：	iMacros, Bardeen
-Bookmark & Tab Management：	OneTab, Tab Manager Plus
+## 🔧 Chrome API Summary
+
+* `chrome.accessibilityFeatures` – Manage Chrome's accessibility features (e.g. font scaling, captions)
+* `chrome.action` – Control the toolbar icon (badge, popup, title)
+* `chrome.alarms` – Schedule background tasks periodically
+* `chrome.bookmarks` – Create and manage bookmarks
+* `chrome.browsingData` – Clear browsing history, cache, cookies
+* `chrome.commands` – Define keyboard shortcuts
+* `chrome.contentSettings` – Control site-level permissions (e.g. cookies, JavaScript)
+* `chrome.contextMenus` – Add entries to the right-click menu
+* `chrome.cookies` – Read, write, and monitor cookies
+* `chrome.debugger` – Use DevTools Protocol with tabs
+* `chrome.declarativeContent` – React to page content without direct script injection
+* `chrome.desktopCapture` – Capture screen, window, or tab
+* `chrome.dom` – Perform privileged DOM operations
+* `chrome.downloads` – Programmatically manage downloads
+* `chrome.events` – Standard extension event APIs
+* `chrome.extension` – Messaging and view management tools
+* `chrome.extensionTypes` – Shared type definitions
+* `chrome.fontSettings` – Customize default browser fonts
+* `chrome.gcm` – Integrate with Firebase Cloud Messaging
+* `chrome.history` – Access and manipulate browser history
+* `chrome.i18n` – Enable localization and translation
+* `chrome.identity` – OAuth2 and user identity
+* `chrome.idle` – Detect when user/system is idle
+* `chrome.instanceID` – Unique ID for extension instance
+* `chrome.management` – Manage other extensions/apps
+* `chrome.notifications` – Show system-level notifications
+* `chrome.offscreen` – Use hidden offscreen documents (e.g., for rendering)
+* `chrome.runtime` – Extension lifecycle and messaging
+* `chrome.permissions` – Request/check permissions at runtime
+* `chrome.scripting` – Dynamically inject scripts/styles
+* `chrome.sidePanel` – Add a persistent browser side panel
+* `chrome.storage` – Store and sync extension data
+* `chrome.tabs` – Create, update, and query tabs
+* `chrome.userScripts` – Manage user-defined scripts
+* `chrome.webNavigation` – Observe navigation events
+* `chrome.webRequest` – Inspect or modify network requests
+* `chrome.windows` – Control and manipulate browser windows
+
+---
+
+# 🌍 1.3 Real-World Use Cases
+
+| Category                | Example Extensions                              |
+| ----------------------- | ----------------------------------------------- |
+| **Ad Blocking**         | uBlock Origin, Adblock Plus                     |
+| **Password Management** | Bitwarden, LastPass, 1Password                  |
+| **Security & Privacy**  | HTTPS Everywhere, DuckDuckGo Privacy Essentials |
+| **Productivity**        | Notion Web Clipper, Todoist, Momentum           |
+| **Developer Tools**     | React DevTools, JSON Viewer, Wappalyzer         |
+| **Translation**         | Google Translate, DeepL                         |
+| **Shopping**            | Honey, Rakuten                                  |
+| **Custom Styling**      | Stylus, Dark Reader                             |
+| **Automation**          | iMacros, Bardeen                                |
+| **Bookmark & Tab Mgmt** | OneTab, Tab Manager Plus                        |
