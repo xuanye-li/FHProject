@@ -1,22 +1,22 @@
-# 📘 1.1 Getting to Know Browser Extensions
+# 1.1 Getting to Know Browser Extensions
 
 A **browser extension** changes how the browser behaves, looks, or interacts with websites — like an **app for your browser**.
 
-## 🧱 Folder Structure Example
+## Folder Structure Example
 
 ```
 my-extension/
-├── manifest.json          # 🧭 Extension configuration
-├── background.js          # ⚙️ Background script (service worker)
-├── content.js             # 📄 Injected into web pages (DOM manipulation)
-├── popup.html             # 🖼 UI shown when clicking the extension icon
-├── popup.js               # 🎮 Logic for the popup UI
-├── styles.css             # 🎨 Styles for popup or injected scripts
-├── icon.png               # 🖼 Toolbar or store icon
-└── assets/                # 📁 Optional images, fonts, etc.
+├── manifest.json          # Extension configuration
+├── background.js          # Background script (service worker)
+├── content.js             # Injected into web pages (DOM manipulation)
+├── popup.html             # UI shown when clicking the extension icon
+├── popup.js               # Logic for the popup UI
+├── styles.css             # Styles for popup or injected scripts
+├── icon.png               # Toolbar or store icon
+└── assets/                # Optional images, fonts, etc.
 ```
 
-## 📄 `manifest.json` – Extension Configuration
+## `manifest.json` – Extension Configuration
 
 Defines:
 
@@ -54,9 +54,9 @@ Defines:
 
 ---
 
-# 🚀 1.2 Capabilities of Browser Extensions
+# 1.2 Capabilities of Browser Extensions
 
-## 🔧 Chrome API Summary
+## Chrome API Summary
 
 * `chrome.accessibilityFeatures` – Manage Chrome's accessibility features (e.g. font scaling, captions)
 * `chrome.action` – Control the toolbar icon (badge, popup, title)
@@ -98,7 +98,7 @@ Defines:
 
 ---
 
-# 🌍 1.3 Real-World Use Cases
+# 1.3 Real-World Use Cases
 
 | Category                | Example Extensions                              |
 | ----------------------- | ----------------------------------------------- |
