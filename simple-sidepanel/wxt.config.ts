@@ -9,6 +9,7 @@ export default defineConfig({
   }),
   manifest: {
     permissions: ['tabs', 'sidePanel'],
+    host_permissions: ['<all_urls>'],
     side_panel: {
       default_path: 'entrypoints/sidepanel/index.html',
     },
