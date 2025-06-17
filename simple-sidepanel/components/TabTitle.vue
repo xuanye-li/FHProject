@@ -19,14 +19,11 @@ const title = ref<string | null>(null)
 
 onMounted(() => {
   updateTitle()
-
-  // Listen for tab switching or title change
   browser.tabs.onActivated.addListener(updateTitle)
   browser.tabs.onUpdated.addListener(updateTitle)
 })
 
 onUnmounted(() => {
-  // Clean up listeners when component unmounts (good practice)
   browser.tabs.onActivated.removeListener(updateTitle)
   browser.tabs.onUpdated.removeListener(updateTitle)
 })
