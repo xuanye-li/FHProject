@@ -1,11 +1,12 @@
 import { defineConfig } from 'wxt';
 import tailwindcss from "@tailwindcss/vite";
+import ui from '@nuxt/ui/vite'
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   modules: ['@wxt-dev/module-vue'],
   vite: () => ({
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), ui()],
   }),
   manifest: {
     permissions: ['tabs', 'sidePanel'],
