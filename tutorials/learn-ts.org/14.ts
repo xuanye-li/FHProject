@@ -1,1 +1,0 @@
-type IsString<T> = T extends string ? "Yes" : "No";
