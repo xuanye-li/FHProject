@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+      "biomejs.biome",                         // Biome integration for linting and formatting
+      "eamodio.gitlens",                       // Git insights and history
+      "streetsidesoftware.code-spell-checker", // Spell checker
+      "bradlc.vscode-tailwindcss"              // Tailwind CSS IntelliSense
+    ]
+  }

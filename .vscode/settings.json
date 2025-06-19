@@ -1,0 +1,22 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",  // Use workspace TypeScript version
+    "cSpell.allowCompoundWords": true,                 // Allow camelCase spell check
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/__pycache__": true
+    },
+    "prettier.enable": false,                          // Disable Prettier to use Biome instead
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "quickfix.biome": "explicit",                    // Use Biome for formatting
+      "source.organizeImports.biome": "explicit"
+    },
+    "tailwindCSS.experimental.classRegex": [           // Tailwind CSS class extraction regex
+      ["cva\\(((?:[^()]|\\([^()]*\\))*)\\)", "[\"'`]?([^\"'`]+)[\"'`]?"],
+      ["cx\\(((?:[^()]|\\([^()]*\\))*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    ],
+    "[javascript][javascriptreact][typescript][typescriptreact][vue][html][markdown][json][jsonc][yaml][toml][astro]": {
+      "editor.defaultFormatter": "biomejs.biome"       // Default formatter for supported languages
+    },
+    "cSpell.words": ["lucide", "vueuse"]               // Custom spell check words
+  }

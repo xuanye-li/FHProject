@@ -1,1 +1,1 @@
-# FHProject
+# FrogHire.ai Project Repo
