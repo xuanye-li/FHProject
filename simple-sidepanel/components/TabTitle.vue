@@ -2,39 +2,27 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { browser } from 'wxt/browser'
 
-const title = ref<string | null>(null)
+const title = ref('Loading…')
 
-function setTitle(tabTitle?: string | undefined | null) {
-  title.value = tabTitle || 'Title not accessible on this site'
-}
-
-function updateActiveTabTitle() {
-  browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
-    setTitle(tab?.title)
-  })
-}
-
-function handleTabActivated(info: { tabId: number }) {
-  browser.tabs.get(info.tabId).then(tab => {
-    setTitle(tab.title)
-  })
-}
-
-function handleTabUpdated(_: number, _changeInfo: object, tab: { active?: boolean; title?: string }) {
-  if (tab.active) {
-    setTitle(tab.title)
+function handleMessage(message: any) {
+  if (message.type === 'TAB_TITLE') {
+    title.value = message.title
   }
 }
 
 onMounted(() => {
-  updateActiveTabTitle()
-  browser.tabs.onActivated.addListener(handleTabActivated)
-  browser.tabs.onUpdated.addListener(handleTabUpdated)
+  browser.runtime.onMessage.addListener(handleMessage)
+
+  // Initial request
+  browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
+    if (tab?.title) {
+      title.value = tab.title
+    }
+  })
 })
 
 onUnmounted(() => {
-  browser.tabs.onActivated.removeListener(handleTabActivated)
-  browser.tabs.onUpdated.removeListener(handleTabUpdated)
+  browser.runtime.onMessage.removeListener(handleMessage)
 })
 </script>
 
