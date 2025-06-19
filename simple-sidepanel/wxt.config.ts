@@ -9,6 +9,9 @@ export default defineConfig({
     plugins: [tailwindcss(), ui()],
   }),
   manifest: {
+    name: 'Simple Sidepanel',
+    description: 'testing',
+    version: '1.0.0',
     permissions: ['tabs', 'sidePanel'],
     host_permissions: ['<all_urls>'],
     side_panel: {
