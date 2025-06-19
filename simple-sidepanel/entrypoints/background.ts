@@ -6,14 +6,14 @@ export default defineBackground(() => {
   browser.tabs.onActivated.addListener(({ tabId }) => {
     browser.tabs.get(tabId).then(tab => {
       if (tab?.title) {
-        browser.runtime.sendMessage({ type: 'TAB_TITLE', title: tab.title })
+        browser.runtime.sendMessage({ type: 'title', title: tab.title })
       }
     })
   })
 
   browser.tabs.onUpdated.addListener((tabId, _, tab) => {
     if (tab.active && tab.title) {
-      browser.runtime.sendMessage({ type: 'TAB_TITLE', title: tab.title })
+      browser.runtime.sendMessage({ type: 'title', title: tab.title })
     }
   })
 })

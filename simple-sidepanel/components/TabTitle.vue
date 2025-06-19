@@ -2,23 +2,21 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { browser } from 'wxt/browser'
 
-const title = ref('Loading…')
+const title = ref('loading')
 
 function handleMessage(message: any) {
-  if (message.type === 'TAB_TITLE') {
+  if (message.type === 'title') {
     title.value = message.title
   }
 }
 
 onMounted(() => {
-  browser.runtime.onMessage.addListener(handleMessage)
-
-  // Initial request
   browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
     if (tab?.title) {
       title.value = tab.title
     }
   })
+  browser.runtime.onMessage.addListener(handleMessage)
 })
 
 onUnmounted(() => {
@@ -28,5 +26,5 @@ onUnmounted(() => {
 
 <template>
   <p v-if="title">{{ title }}</p>
-  <p v-else class="text-gray-500 italic">Loading…</p>
+  <p v-else class="text-gray-500 italic">loading</p>
 </template>
