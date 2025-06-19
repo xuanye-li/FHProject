@@ -1,0 +1,51 @@
+# Ignore common Node.js, editor, and build output files
+
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+.pnpm-store
+
+# testing
+/coverage
+coverage
+
+# production
+/build
+dist/
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# debug
+npm-debug.log*
+.yarn-integrity
+.now
+esm
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+
+# cli tools
+.vercel
+.astro/
+.wxt
+.output

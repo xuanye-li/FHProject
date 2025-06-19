@@ -1,0 +1,27 @@
+{
+  "name": "root",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "setup": "lefthook install",
+    "dev:pagemind": "pnpm --filter pagemind dev",
+    "build:pagemind": "pnpm --filter pagemind build",
+    "check": "biome check",
+    "check:write": "biome check --write",
+    "taze": "npx taze -r -w --exclude pnpm,@types/node"
+  },
+  "packageManager": "pnpm@10.12.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@types/node": "catalog:",
+    "lefthook": "^1.11.14",
+    "typescript": "catalog:"
+  },
+  "engines": {
+    "node": "^22.16.0"
+  }
+}

@@ -1,0 +1,29 @@
+# http://editorconfig.org
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# 4 space indentation
+[*.{py}]
+indent_style = space
+indent_size = 4
+
+# 2 space indentation
+[*.{vue,astro,{m,}ts,{c,m,}js,tsx,json{c,},y{a,}ml,html,cwl,css}]
+indent_style = space
+indent_size = 2
+
+[*.{md,Rmd,rst}]
+trim_trailing_whitespace = false
+indent_style = tab
+indent_size = 2
+
+[Makefile]
+indent_style = tab
+
+[Justfile]
+indent_style = tab
