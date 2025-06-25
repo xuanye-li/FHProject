@@ -96,15 +96,11 @@ onMounted(() => {
 
     <div class="mt-4 space-y-2">
       <UFormGroup label="Summary Style" name="style">
-        <USelect
-          v-model="summaryStyle"
-          :options="summaryOptions"
-          value-attribute="value"
-        />
+        <USelect v-model="summaryStyle" :items="summaryOptions" />
       </UFormGroup>
 
       <UFormGroup label="Number of items" name="count">
-        <UInput v-model.number="numItems" type="number" min="1" max="20" />
+        <UInput v-model="numItems" type="number" min="1" max="20" />
       </UFormGroup>
       <UButton
         label="Summarize with Groq"
