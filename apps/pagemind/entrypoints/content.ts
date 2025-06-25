@@ -1,3 +1,4 @@
+import { Readability } from '@mozilla/readability'
 import { browser } from 'wxt/browser'
 
 function extractWikipedia(): string {
@@ -36,28 +37,59 @@ function extractContent(): string {
 }
 
 
+// export default defineContentScript({
+//   matches: ['*://*.wikipedia.org/*', '*://medium.com/*', '*://*.medium.com/*'],
+//   runAt: 'document_idle',
+//   main() {
+//     console.log('Hello content.')
+//   },
+// })
+
+// browser.runtime.onMessage.addListener((msg, _, sendResponse) => {
+//   console.log('📩 Received message in content script:', msg)
+//   if (msg.type === 'extract_content') {
+//     console.log('📩 Extract', msg)
+//     const clean = extractContent()
+
+//     browser.runtime.sendMessage({
+//       type: 'content_extracted',
+//       data: {
+//         title: document.title,
+//         url: location.href,
+//         content: clean.slice(0, 2000),
+//       },
+//     })
+
+//     sendResponse({ ok: true })
+//   }
+
+//   return true
+// })
+
 export default defineContentScript({
-  matches: ['*://*.wikipedia.org/*', '*://medium.com/*', '*://*.medium.com/*'],
+  matches: ['<all_urls>'],
   runAt: 'document_idle',
   main() {
-    console.log('Hello content.')
+    console.log('PageMind content script loaded')
   },
 })
 
 browser.runtime.onMessage.addListener((msg, _, sendResponse) => {
-  console.log('📩 Received message in content script:', msg)
   if (msg.type === 'extract_content') {
-    console.log('📩 Extract', msg)
-    const clean = extractContent()
+    const docClone = document.cloneNode(true) as Document
+    const reader = new Readability(docClone)
+    const article = reader.parse()
 
-    browser.runtime.sendMessage({
-      type: 'content_extracted',
-      data: {
-        title: document.title,
-        url: location.href,
-        content: clean.slice(0, 2000),
-      },
-    })
+    if (article) {
+      browser.runtime.sendMessage({
+        type: 'content_extracted',
+        data: {
+          title: article.title || document.title,
+          url: location.href,
+          content: article.textContent,
+        },
+      })
+    }
 
     sendResponse({ ok: true })
   }
