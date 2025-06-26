@@ -19,6 +19,8 @@ const summaryOptions = [
 ]
 const numItems = ref(5)
 
+const model_type = ref<string>('llama3-8b-8192')
+
 const summarizeWithGroq = async () => {
   if (!content.value) return
   const api_key = "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"
@@ -27,6 +29,8 @@ const summarizeWithGroq = async () => {
 
   isSummarizing.value = true
   summary.value = ''
+
+  const trimmedContent = content.value.content.slice(0, 2000)
 
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -48,7 +52,7 @@ const summarizeWithGroq = async () => {
                 Summarize the following content from this page using ${summaryStyle.value} format.
                 Only include the ${numItems.value} most important ${
                   summaryStyle.value === 'bullet' ? 'bullet points' : 'paragraphs'
-                }.\n\n${content.value.content}`,
+                }.\n\n${trimmedContent}`,
           },
         ],
         temperature: 0.5,
