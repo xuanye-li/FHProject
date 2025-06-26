@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMessage, sendMessage } from '@/utils/messaging.ts';
 import { onMounted, ref } from 'vue'
 import { browser } from 'wxt/browser'
 
@@ -18,7 +19,6 @@ const summaryOptions = [
   { label: 'Paragraphs', value: 'paragraphs' },
 ]
 const numItems = ref(5)
-
 const model_type = ref<string>('llama3-8b-8192')
 
 const summarizeWithGroq = async () => {
@@ -30,7 +30,7 @@ const summarizeWithGroq = async () => {
   isSummarizing.value = true
   summary.value = ''
 
-  const trimmedContent = content.value.content.slice(0, 2000)
+  const trimmedContent = content.value.content.slice(0, 4000)
 
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -40,7 +40,7 @@ const summarizeWithGroq = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama3-8b-8192',
+        model: model_type.value,
         messages: [
           {
             role: 'system',
@@ -70,19 +70,27 @@ const summarizeWithGroq = async () => {
   }
 }
 
+
 onMounted(() => {
-  browser.runtime.onMessage.addListener((msg) => {
-    if (msg.type === 'content_extracted') {
-      content.value = msg.data
-    }
-  })
+  onMessage('contentExtracted', ({ data }) => {
+    content.value = data;;
+  });
 
   browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
     if (tab?.id) {
-      browser.tabs.sendMessage(tab.id, { type: 'extract_content' }).catch(() => {})
+      sendMessage('extractContentRequest', undefined, { tabId: tab.id })
+        .catch((error) => {
+          console.error(`${tab.id}:`, error);
+          content.value = null;
+          summary.value = 'could not load content from the active tab';
+        });
+    } else {
+      content.value = null;
+      summary.value = 'no active tab';
     }
-  })
+  });
 })
+
 </script>
 
 <template>

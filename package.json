@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
+    "@webext-core/messaging": "^2.3.0",
     "jsdom": "^26.1.0"
   }
 }

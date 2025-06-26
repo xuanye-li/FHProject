@@ -1,16 +1,22 @@
+import { sendMessage } from '@/utils/messaging.ts';
 import { browser } from 'wxt/browser'
 
 export default defineBackground(() => {
   browser.sidePanel?.setPanelBehavior({ openPanelOnActionClick: true })
 
   browser.tabs.onActivated.addListener(({ tabId }) => {
-    browser.tabs.sendMessage(tabId, { type: 'extract_content' }).catch(() => {
-    })
+    sendMessage('extractContentRequest', undefined, { tabId })
+      .catch((error) => {
+        console.warn(`${tabId} fail`, error);
+      });
   })
 
   browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.active) {
-      browser.tabs.sendMessage(tabId, { type: 'extract_content' }).catch(() => {})
+      sendMessage('extractContentRequest', undefined, { tabId })
+        .catch((error) => {
+          console.warn(`${tabId} fail`, error);
+        });
     }
   })
 })
