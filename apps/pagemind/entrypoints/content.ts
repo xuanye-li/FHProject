@@ -14,27 +14,29 @@ export default defineContentScript({
   },
 })
 
-onMessage('extractContentRequest', () => {
-  const docClone = document.cloneNode(true) as Document;
-  const reader = new Readability(docClone);
-  const article = reader.parse();
 
-  if (article) {
-    const markdown = turndownService.turndown(article.content);
-    console.warn("success failure");
-    sendMessage('contentExtracted', {
-      title: article.title || document.title,
-      url: location.href,
-      content: markdown || '',
-    });
-  } else {
-    console.warn("readability failure");
-     sendMessage('contentExtracted', {
-      title: document.title,
-      url: location.href,
-      content: document.body.innerText || '',
-    });
-  }
+onMessage('extractContentRequest', () => {
+  setTimeout(() => {
+    const docClone = document.cloneNode(true) as Document;
+    const reader = new Readability(docClone);
+    const article = reader.parse();
+
+    if (article) {
+      const markdown = turndownService.turndown(article.content);
+      sendMessage('contentExtracted', {
+        title: article.title || document.title,
+        url: location.href,
+        content: markdown || '',
+      });
+    } else {
+      console.warn("readability failure");
+      sendMessage('contentExtracted', {
+        title: document.title,
+        url: location.href,
+        content: document.body.innerText || '',
+      });
+    }
+  }, 1000);
 
   return true;
 });
