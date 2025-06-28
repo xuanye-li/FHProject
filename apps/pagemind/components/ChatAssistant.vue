@@ -99,12 +99,10 @@ onMounted(() => {
 
 <template>
   <div v-if="content">
-    <template #header>
-      <h2 class="text-lg font-bold truncate text-primary">
-        {{ content.title }}
-      </h2>
-      <p class="text-xs text-muted break-all">{{ content.url }}</p>
-    </template>
+    <h2 class="text-lg font-bold truncate text-primary">
+      {{ content.title }}
+    </h2>
+    <p class="text-xs text-muted break-all">{{ content.url }}</p>
 
 
     <UButton
@@ -126,7 +124,7 @@ onMounted(() => {
     </div>
 
     <div v-if="isChatting" class="border-t pt-4 mt-4">
-      <div class="mb-2 max-h-40 overflow-y-auto space-y-2">
+      <div class="mb-2 max-h-135 overflow-y-auto space-y-2">
         <div v-for="(msg, i) in chatHistory" :key="i" :class="msg.role === 'user' ? 'text-right' : 'text-left'">
           <span :class="msg.role === 'user' ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-800 text-default'"
                 class="inline-block rounded px-2 py-1 max-w-[80%]">
