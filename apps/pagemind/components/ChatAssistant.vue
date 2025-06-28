@@ -98,7 +98,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <UCard v-if="content">
+  <div v-if="content">
     <template #header>
       <h2 class="text-lg font-bold truncate text-primary">
         {{ content.title }}
@@ -139,7 +139,8 @@ onMounted(() => {
         <UButton type="submit" :loading="isSending" label="Send" color="primary" />
       </form>
     </div>
-  </UCard>
+  </div>
+
   <div v-else class="text-muted italic text-sm px-4 py-2">
     Loading content…
   </div>

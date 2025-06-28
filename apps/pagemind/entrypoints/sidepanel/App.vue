@@ -10,6 +10,8 @@ import ChatAssistant from '@/components/ChatAssistant.vue'
       </template>
       <p class="text-default">Your AI-powered Job Searcher.</p>
     </UCard>
+    <UCard>
     <ChatAssistant />
+    </UCard>
   </div>
 </template>
