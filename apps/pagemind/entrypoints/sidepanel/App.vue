@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LLMSummary from '@/components/LLMSummary.vue'
+import ChatAssistant from '@/components/ChatAssistant.vue'
 </script>
 
 <template>
@@ -8,8 +8,8 @@ import LLMSummary from '@/components/LLMSummary.vue'
       <template #header>
         <h1 class="text-xl font-bold">PageMind</h1>
       </template>
-      <p class="text-default">Your AI-powered summarizer.</p>
+      <p class="text-default">Your AI-powered Job Searcher.</p>
     </UCard>
-    <LLMSummary />
+    <ChatAssistant />
   </div>
 </template>

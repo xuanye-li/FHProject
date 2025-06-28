@@ -1,5 +1,10 @@
 import { onMessage, sendMessage } from '@/utils/messaging.ts';
+import { gfm } from '@joplin/turndown-plugin-gfm';
 import { Readability } from '@mozilla/readability'
+import TurndownService from 'turndown';
+
+const turndownService = new TurndownService({ codeBlockStyle: 'fenced' });
+turndownService.use(gfm);
 
 export default defineContentScript({
   matches: ['<all_urls>'],
@@ -15,10 +20,12 @@ onMessage('extractContentRequest', () => {
   const article = reader.parse();
 
   if (article) {
+    const markdown = turndownService.turndown(article.content);
+    console.warn("success failure");
     sendMessage('contentExtracted', {
       title: article.title || document.title,
       url: location.href,
-      content: article.textContent || '',
+      content: markdown || '',
     });
   } else {
     console.warn("readability failure");
