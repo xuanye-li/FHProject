@@ -49,3 +49,4 @@ esm
 .astro/
 .wxt
 .output
+apps/pagemind-nuxt/dist
