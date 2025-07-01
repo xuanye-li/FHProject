@@ -29,7 +29,7 @@ const sendChat = async () => {
   if (!userInput.value || !content.value) return
   isSending.value = true
 
-  const api_key = "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"
+  const api_key = import.meta.env.VITE_GROQ_API_KEY;
 
   console.log('Loaded API key:', api_key)
 
