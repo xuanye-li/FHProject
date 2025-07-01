@@ -111,22 +111,30 @@ onMounted(() => {
       {{ content.title }}
     </h2>
     <p class="text-xs text-muted break-all">{{ content.url }}</p>
-    <div class="flex items-center gap-2 mb-2">
-      <UFormField label="Model" class="mb-2">
+
+    <div class="flex items-center gap-2 mb-4">
+      <div class="flex items-center gap-1">
+        <UIcon name="i-heroicons-cpu-chip" class="text-gray-500 dark:text-gray-400 w-5 h-5" />
         <USelect
           v-model="llm.selectedModelId"
           :items="llm.models.map(m => ({ label: m.label, value: m.id }))"
+          size="sm"
+          class="w-full"
+          placeholder="Select model"
         />
-      </UFormField>
+      </div>
 
+      <!-- Show/Hide Context Button -->
       <UButton
-        :label="showContext ? 'Hide Chat Context' : 'Show Chat Context'"
+        :label="showContext ? 'Hide Context' : 'Show Context'"
         @click="showContext = !showContext"
+        icon="i-heroicons-eye"
         size="sm"
-        variant="ghost"
-        class="mb-2"
+        variant="soft"
+        class="min-w-[120px]"
       />
     </div>
+
 
     <div
       v-if="showContext"

@@ -13,6 +13,7 @@ declare module 'vue' {
     UButton: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
     UCard: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
     UFormField: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/components/FormField.vue')['default']
+    UIcon: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
     UInput: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/components/Input.vue')['default']
     USelect: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
   }
