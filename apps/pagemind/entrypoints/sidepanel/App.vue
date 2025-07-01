@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ChatAssistant from '@/components/ChatAssistant.vue'
+import KnowledgeCards from '@/components/KnowledgeCards.vue';
 </script>
 
 <template>
@@ -13,5 +14,9 @@ import ChatAssistant from '@/components/ChatAssistant.vue'
     <UCard>
     <ChatAssistant />
     </UCard>
+     <UCard>
+    <KnowledgeCards />
+    </UCard>
+
   </div>
 </template>

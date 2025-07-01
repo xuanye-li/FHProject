@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { useKnowledgeCardsStore } from '@/stores/knowledgeCards';
 import { useLlmStore } from '@/stores/llm'
 import { onMessage, sendMessage } from '@/utils/messaging.ts';
+import { nanoid } from 'nanoid'
 import { onMounted, ref } from 'vue'
 import { browser } from 'wxt/browser'
 
@@ -20,6 +22,11 @@ const chatHistory = ref<{ role: 'user' | 'assistant', content: string }[]>([])
 const userInput = ref<string>('')
 
 const llm = useLlmStore()
+
+const summarizedChat = ref('')
+const isSummarizing = ref(false)
+
+const cardsStore = useKnowledgeCardsStore()
 
 const startChat = async () => {
   isChatting.value = true
@@ -102,6 +109,68 @@ onMounted(() => {
   });
 })
 
+
+
+const summarizeChat = async () => {
+  if (!content.value) return
+  isSummarizing.value = true
+  summarizedChat.value = ''
+
+  const formattedChat = chatHistory.value
+    .map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`)
+    .join('\n')
+
+  const prompt = `
+    Given the following conversation between a user and an assistant about this page:
+    ---
+    ${formattedChat}
+    ---
+    Summarize the most important information in **5 concise bullet points** about the conversation`
+
+  try {
+    const res = await fetch(llm.selectedModel.endpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: llm.selectedModel.id,
+        messages: [
+          { role: 'system', content: "You are an assistant that summarizes conversations into 5 bullet points." },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.5,
+      }),
+    })
+    const data = await res.json()
+    summarizedChat.value = data.choices?.[0]?.message?.content || 'No summary returned.'
+  } catch (e) {
+    summarizedChat.value = 'Error summarizing conversation.'
+    console.error(e)
+  } finally {
+    isSummarizing.value = false
+  }
+}
+
+function saveSummaryCard() {
+  if (!summarizedChat.value || !content.value) return
+  cardsStore.addCard({
+    id: nanoid(),
+    title: content.value.title,
+    highlights: summarizedChat.value.split('\n').map(line => line.trim())
+    .filter((line, idx) =>
+      line.length > 0 &&
+      (!/^here are.*bullet/i.test(line) && !(idx === 0 && !line.startsWith('-') && !line.startsWith('*')))
+    ),
+    tags: [],
+    sourceUrl: content.value.url,
+    timestamp: new Date().toISOString(),
+    model: llm.selectedModel?.label ?? '',
+  })
+  summarizedChat.value = ''
+}
+
 </script>
 
 <template>
@@ -162,10 +231,34 @@ onMounted(() => {
         <UInput v-model="userInput" :disabled="isSending" placeholder="Ask about this page..." class="flex-1" />
         <UButton type="submit" :loading="isSending" label="Send" color="primary" />
       </form>
+
+      <UButton
+        v-if="isChatting && chatHistory.length > 1 && !isSummarizing"
+        label="Summarize This Chat"
+        color="primary"
+        @click="summarizeChat"
+      />
+      <UButton
+        v-if="isSummarizing"
+        loading
+        disabled
+        label="Summarizing..."
+        class="ml-2"
+      />
     </div>
   </div>
 
   <div v-else class="text-muted italic text-sm px-4 py-2">
     Loading content…
+  </div>
+
+  <div v-if="summarizedChat" class="p-2 rounded mt-3 whitespace-pre-line">
+    {{ summarizedChat }}
+    <UButton
+      class="mt-2"
+      label="Save as Knowledge Card"
+      color="primary"
+      @click="saveSummaryCard"
+    />
   </div>
 </template>
