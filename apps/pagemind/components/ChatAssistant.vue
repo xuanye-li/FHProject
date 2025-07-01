@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLlmStore } from '@/stores/llmStore'
+import { useLlmStore } from '@/stores/llm'
 import { onMessage, sendMessage } from '@/utils/messaging.ts';
 import { onMounted, ref } from 'vue'
 import { browser } from 'wxt/browser'
@@ -34,14 +34,13 @@ const sendChat = async () => {
   const endpoint = llm.selectedModel.endpoint
   const modelId = llm.selectedModel.id
 
-  // For Groq, get the API key from env (dev only)
   let apiKey = ''
   if (llm.selectedModel.apiType === 'groq') {
     apiKey = import.meta.env.VITE_GROQ_API_KEY
   }
   console.log('Loaded API key:', apiKey)
 
-  const trimmedContent = content.value.content.slice(0, 2000)
+  const trimmedContent = content.value.content.slice(0, 2000) // token limit
 
   const messages = [
     {
@@ -124,7 +123,6 @@ onMounted(() => {
         />
       </div>
 
-      <!-- Show/Hide Context Button -->
       <UButton
         :label="showContext ? 'Hide Context' : 'Show Context'"
         @click="showContext = !showContext"
