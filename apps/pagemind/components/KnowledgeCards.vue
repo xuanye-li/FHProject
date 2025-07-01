@@ -1,9 +1,15 @@
 <script setup lang="ts">
+
 import { useKnowledgeCardsStore } from '@/stores/knowledgeCards'
 const cardsStore = useKnowledgeCardsStore()
+onMounted(() => {
+  if (!cardsStore.loaded) cardsStore.loadCards()
+})
+
 </script>
 
 <template>
+  <h1 class="text-lg font-bold truncate text-primary">Knowledge Cards</h1>
   <UCard class="mb-3" v-for="card in cardsStore.cards" :key="card.id">
     <template #header>
       <div class="flex justify-between items-center gap-2">

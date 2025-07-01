@@ -6,9 +6,7 @@ import KnowledgeCards from '@/components/KnowledgeCards.vue';
 <template>
   <div class="p-4 space-y-4">
     <UCard>
-      <template #header>
-        <h1 class="text-xl font-bold">PageMind</h1>
-      </template>
+      <h1 class="text-xl font-bold">PageMind</h1>
       <p class="text-default">Your AI-powered Job Searcher.</p>
     </UCard>
     <UCard>
