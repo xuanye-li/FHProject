@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import LLMSummary from '@/components/LLMSummary.vue'
+import ChatAssistant from '@/components/ChatAssistant.vue'
+import KnowledgeCards from '@/components/KnowledgeCards.vue';
 </script>
 
 <template>
   <div class="p-4 space-y-4">
     <UCard>
-      <template #header>
-        <h1 class="text-xl font-bold">PageMind</h1>
-      </template>
-      <p class="text-default">Your AI-powered summarizer.</p>
+      <h1 class="text-xl font-bold">PageMind</h1>
+      <p class="text-default">Your AI-powered Job Searcher.</p>
     </UCard>
-    <LLMSummary />
+    <UCard>
+    <ChatAssistant />
+    </UCard>
+     <UCard>
+    <KnowledgeCards />
+    </UCard>
+
   </div>
 </template>
