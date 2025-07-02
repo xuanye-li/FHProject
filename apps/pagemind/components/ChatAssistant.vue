@@ -47,7 +47,7 @@ const sendChat = async () => {
   }
   console.log('Loaded API key:', apiKey)
 
-  const trimmedContent = content.value.content.slice(0, 2000) // token limit
+  const trimmedContent = content.value.content.slice(0, 4000) // token limit
 
   const messages = [
     {

@@ -27,6 +27,7 @@
   "dependencies": {
     "@joplin/turndown-plugin-gfm": "^1.0.62",
     "@mozilla/readability": "^0.6.0",
+    "@nuxt/ui-pro": "^3.2.0",
     "@webext-core/messaging": "^2.3.0",
     "idb": "^8.0.3",
     "jsdom": "^26.1.0",
