@@ -20,8 +20,5 @@ export default defineConfig({
     background: {
       service_worker: 'entrypoints/background.ts',
     },
-    env: {
-      GROQ_API_KEY: 'GROQ_API_KEY',
-    },
   },
 });
