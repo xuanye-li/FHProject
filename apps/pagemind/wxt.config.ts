@@ -1,4 +1,4 @@
-import ui from '@nuxt/ui/vite'
+import uiPro from '@nuxt/ui-pro/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'wxt';
 
@@ -6,7 +6,7 @@ import { defineConfig } from 'wxt';
 export default defineConfig({
   modules: ['@wxt-dev/module-vue'],
   vite: () => ({
-    plugins: [tailwindcss(), ui()],
+    plugins: [tailwindcss(), uiPro()],
   }),
   manifest: {
     name: 'Pagemind',

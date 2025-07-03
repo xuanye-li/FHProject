@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ChatAssistant from '@/components/ChatAssistant.vue'
+import ChatAssistantPro from '@/components/ChatAssistantPro.vue'
 import KnowledgeCards from '@/components/KnowledgeCards.vue';
 </script>
 
@@ -10,7 +10,7 @@ import KnowledgeCards from '@/components/KnowledgeCards.vue';
       <p class="text-default">Your AI-powered Job Searcher.</p>
     </UCard>
     <UCard>
-    <ChatAssistant />
+    <ChatAssistantPro />
     </UCard>
      <UCard>
     <KnowledgeCards />

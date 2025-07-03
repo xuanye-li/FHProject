@@ -10,12 +10,16 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    UBadge: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.27.5_embla-carousel@8.6.0_magicast@0.3.5_typescript@5.7._24de20760db3fa3451b2fac97d94a35c/node_modules/@nuxt/ui/dist/runtime/components/Badge.vue')['default']
-    UButton: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.27.5_embla-carousel@8.6.0_magicast@0.3.5_typescript@5.7._24de20760db3fa3451b2fac97d94a35c/node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
-    UCard: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.27.5_embla-carousel@8.6.0_magicast@0.3.5_typescript@5.7._24de20760db3fa3451b2fac97d94a35c/node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
-    UFormField: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.7_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_7c00995cc2226fcfc00fa6367513ed8c/node_modules/@nuxt/ui/dist/runtime/components/FormField.vue')['default']
-    UIcon: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.27.5_embla-carousel@8.6.0_magicast@0.3.5_typescript@5.7._24de20760db3fa3451b2fac97d94a35c/node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
-    UInput: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.27.5_embla-carousel@8.6.0_magicast@0.3.5_typescript@5.7._24de20760db3fa3451b2fac97d94a35c/node_modules/@nuxt/ui/dist/runtime/components/Input.vue')['default']
-    USelect: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.27.5_embla-carousel@8.6.0_magicast@0.3.5_typescript@5.7._24de20760db3fa3451b2fac97d94a35c/node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
+    UAvatar: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Avatar.vue')['default']
+    UBadge: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Badge.vue')['default']
+    UButton: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
+    UCard: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Card.vue')['default']
+    UChatMessages: typeof import('./../../node_modules/.pnpm/@nuxt+ui-pro@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jw_e2bb8033560662426afabb5f89672e5d/node_modules/@nuxt/ui-pro/dist/runtime/components/ChatMessages.vue')['default']
+    UChatPrompt: typeof import('./../../node_modules/.pnpm/@nuxt+ui-pro@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jw_e2bb8033560662426afabb5f89672e5d/node_modules/@nuxt/ui-pro/dist/runtime/components/ChatPrompt.vue')['default']
+    UChatPromptSubmit: typeof import('./../../node_modules/.pnpm/@nuxt+ui-pro@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jw_e2bb8033560662426afabb5f89672e5d/node_modules/@nuxt/ui-pro/dist/runtime/components/ChatPromptSubmit.vue')['default']
+    UIcon: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
+    USelect: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
+    UTextarea: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue')['default']
+    UTooltip: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Tooltip.vue')['default']
   }
 }
