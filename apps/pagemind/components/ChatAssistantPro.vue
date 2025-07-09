@@ -17,7 +17,7 @@ const context = ref('')
 const showContext = ref(false)
 
 const isChatting = ref(false)
-const isSending = ref(false)
+const status = ref<'ready' | 'submitted' | 'streaming' | 'error'>('ready')
 const chatHistory = ref<{ role: 'user' | 'assistant', content: string }[]>([])
 const userInput = ref<string>('')
 
@@ -36,7 +36,7 @@ const startChat = async () => {
 
 const sendChat = async () => {
   if (!userInput.value || !content.value || llm.selectedModel.isPaid) return
-  isSending.value = true
+  status.value = 'submitted'
 
   const endpoint = llm.selectedModel.endpoint
   const modelId = llm.selectedModel.id
@@ -59,6 +59,7 @@ const sendChat = async () => {
   ]
 
   try {
+    status.value = 'streaming'
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -77,11 +78,11 @@ const sendChat = async () => {
     chatHistory.value.push({ role: 'user', content: userInput.value })
     chatHistory.value.push({ role: 'assistant', content: reply })
     userInput.value = ''
+    status.value = 'ready'
   } catch (e) {
     chatHistory.value.push({ role: 'assistant', content: 'Error processing your message.' })
     console.error(e)
-  } finally {
-    isSending.value = false
+    status.value = 'error'
   }
 }
 
@@ -174,83 +175,114 @@ function saveSummaryCard() {
 </script>
 
 <template>
-  <div v-if="content">
-    <h2 class="text-lg font-bold truncate text-primary">
-      {{ content.title }}
-    </h2>
-    <p class="text-xs text-muted break-all">{{ content.url }}</p>
-
-    <div class="flex items-center gap-2 mb-4">
-      <div class="flex items-center gap-1">
-        <UIcon name="i-heroicons-cpu-chip" class="text-gray-500 dark:text-gray-400 w-5 h-5" />
-        <USelect
-          v-model="llm.selectedModelId"
-          :items="llm.models.map(m => ({ label: m.label, value: m.id }))"
+  <div class="h-full flex flex-col max-w-md mx-auto bg-background p-0">
+    <div class="px-4 pt-4 pb-2 border-b shrink-0">
+      <h2 class="text-lg font-bold truncate text-primary">
+        {{ content?.title || 'Loading…' }}
+      </h2>
+      <p v-if="content" class="text-xs text-muted break-all mb-2">{{ content.url }}</p>
+      <div class="flex items-center gap-2 mb-2">
+        <UButton
+          v-if="content"
+          :label="showContext ? 'Hide Context' : 'Show Context'"
+          @click="showContext = !showContext"
+          icon="i-heroicons-eye"
           size="sm"
-          class="w-full"
-          placeholder="Select model"
+          variant="soft"
+        />
+      </div>
+      <div
+        v-if="showContext && content"
+        class="text-xs mt-2 bg-gray-100 dark:bg-gray-800 rounded p-2 max-h-28 overflow-y-auto"
+      >
+        {{ content.content }}
+      </div>
+    </div>
+
+    <div class="flex-1 min-h-0 flex flex-col px-2 py-2">
+      <div v-if="!content" class="flex-1 flex items-center justify-center text-muted italic text-sm">
+        Loading content…
+      </div>
+
+      <div v-else-if="content && !isChatting" class="flex justify-center mt-4">
+        <UButton
+          label="Start Chat About This Page"
+          @click="startChat"
+          color="primary"
+          class="w-full max-w-xs"
         />
       </div>
 
-      <UButton
-        :label="showContext ? 'Hide Context' : 'Show Context'"
-        @click="showContext = !showContext"
-        icon="i-heroicons-eye"
-        size="sm"
-        variant="soft"
-        class="min-w-[120px]"
-      />
-    </div>
-
-
-    <div
-      v-if="showContext"
-      class="text-xs whitespace-pre-line bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2 max-h-40 overflow-y-auto"
-    >
-      {{ content.content }}
-    </div>
-
-    <div v-if="!isChatting" class="mt-4">
-      <UButton label="Start Chat About This Page" @click="startChat" block color="primary" />
-    </div>
-
-    <div v-if="isChatting" class="border-t pt-4 mt-4">
-      <div v-if="llm.selectedModel.isPaid" class="mb-4 text-red-500">
-        This model requires a paid API key. Not supported yet.
+      <div v-else-if="content && isChatting" class="flex-1 min-h-0 flex flex-col rounded-xl bg-background/60 shadow-sm p-2">
+        <UChatMessages
+          :messages="chatHistory"
+          :status="status"
+          :user="{ side: 'right', variant: 'solid' }"
+          :assistant="{ side: 'left', variant: 'solid'}"
+          :compact="true"
+          class="flex-1 min-h-0 overflow-y-auto"
+        />
       </div>
 
-      <UChatMessages :messages="chatHistory" :status="isSending"/>
-       <UChatPrompt v-model="input" @submit="sendChat">
-          <UChatPromptSubmit :status="isSending" />
-        </UChatPrompt>
-
-      <UButton
-        v-if="isChatting && chatHistory.length > 1 && !isSummarizing"
-        label="Summarize This Chat"
-        color="primary"
-        @click="summarizeChat"
-      />
-      <UButton
-        v-if="isSummarizing"
-        loading
-        disabled
-        label="Summarizing..."
-        class="ml-2"
-      />
+      <div v-if="isChatting && isSummarizing" class="flex justify-end mt-2">
+        <UButton
+          loading
+          disabled
+          label="Summarizing..."
+          size="sm"
+        />
+      </div>
     </div>
-  </div>
 
-  <div v-else class="text-muted italic text-sm px-4 py-2">
-    Loading content…
-  </div>
+    <div v-if="isChatting" class="px-4 py-2 border-t bg-background shrink-0">
+      <UChatPrompt v-model="userInput" @submit="sendChat">
+        <UChatPromptSubmit :status="status" />
+      </UChatPrompt>
 
-  <div v-if="summarizedChat" class="p-2 rounded mt-3 whitespace-pre-line">
-    {{ summarizedChat }}
-    <UButton
-      class="mt-2"
-      label="Save as Knowledge Card"
-      color="primary"
-      @click="saveSummaryCard"
-    />
+      <div class="flex gap-2 mt-2 items-center">
+        <UIcon name="i-heroicons-cpu-chip" class="w-5 h-5" />
+        <USelectMenu
+          v-model="llm.selectedModelId"
+          :items="llm.models.map(m => ({ label: m.label, value: m.id }))"
+          variant="ghost"
+          class="min-w-[140px]"
+          placeholder="Select model"
+        />
+        <UButton
+          label="Summarize This Chat"
+          color="primary"
+          size="sm"
+          @click="summarizeChat"
+          :disabled="chatHistory.length <= 1 || isSummarizing"
+          :loading="isSummarizing"
+          class="ml-2"
+        />
+      </div>
+    </div>
+
+    <UCard
+      v-if="summarizedChat"
+      class="mx-4 mb-2 px-4 py-3 bg-secondary/70 dark:bg-secondary-900/70 rounded-xl whitespace-pre-line shrink-0"
+      :ui="{ body: 'p-0' }"
+    >
+      <div class="flex justify-end">
+        <UButton
+          icon="i-heroicons-x-mark"
+          size="sm"
+          color="gray"
+          variant="ghost"
+          @click="summarizedChat = ''"
+          aria-label="Close"
+        />
+      </div>
+      <p class="text-sm">{{ summarizedChat }}</p>
+      <UButton
+        class="mt-3"
+        label="Save as Knowledge Card"
+        color="primary"
+        @click="saveSummaryCard"
+        block
+      />
+    </UCard>
   </div>
 </template>
