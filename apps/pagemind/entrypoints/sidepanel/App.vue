@@ -4,8 +4,10 @@ import { computed } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
 const tabs: TabsItem[] = [
-  { label: 'Knowledge Cards', icon: 'i-heroicons-book-open', value: 'cards', to: '/cards' },
-  { label: 'Chat', icon: 'i-heroicons-chat-bubble-left-ellipsis', value: 'chat', to: '/chat' }
+  { label: 'Home', icon: 'i-heroicons-book-open', value: 'home', to: '/home' },
+  { label: 'Cards', icon: 'i-heroicons-book-open', value: 'cards', to: '/cards' },
+  { label: 'Chat', icon: 'i-heroicons-chat-bubble-left-ellipsis', value: 'chat', to: '/chat' },
+  { label: 'Settings', icon: 'i-heroicons-book-open', value: 'settings', to: '/settings' },
 ]
 
 const route = useRoute()
@@ -27,7 +29,11 @@ const selectedTab = computed({
 
 <template>
   <div class="h-full flex flex-col">
-    <UTabs v-model="selectedTab" :items="tabs" size="lg" class="border-b" :content="false" />
+    <UTabs v-model="selectedTab" :items="tabs" class="border-b"  :content="false">
+    <template #default="{ item }">
+        <span class="text-xs">{{ item.label }}</span>
+      </template>
+    </UTabs>
     <div class="flex-1 min-h-0 overflow-auto">
       <RouterView />
     </div>
