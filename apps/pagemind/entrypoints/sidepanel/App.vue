@@ -4,8 +4,8 @@ import { computed } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
 const tabs: TabsItem[] = [
-  { label: 'Chat', icon: 'i-heroicons-chat-bubble-left-ellipsis', value: 'chat', to: '/chat' },
-  { label: 'Knowledge Cards', icon: 'i-heroicons-book-open', value: 'cards', to: '/cards' }
+  { label: 'Knowledge Cards', icon: 'i-heroicons-book-open', value: 'cards', to: '/cards' },
+  { label: 'Chat', icon: 'i-heroicons-chat-bubble-left-ellipsis', value: 'chat', to: '/chat' }
 ]
 
 const route = useRoute()

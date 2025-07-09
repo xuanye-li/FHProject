@@ -15,9 +15,10 @@ interface ExtractedContent {
 const content = ref<ExtractedContent | null>(null)
 const context = ref('')
 let disposeContentExtracted: (() => void) | undefined
+let disposeContentLoading: (() => void) | undefined
 
 const showContext = ref(false)
-const isChatting = ref(false)
+const isLoading = ref(true)
 const status = ref<'ready' | 'submitted' | 'streaming' | 'error'>('ready')
 const chatHistory = ref<{ role: 'user' | 'assistant', content: string }[]>([])
 const userInput = ref<string>('')
@@ -28,12 +29,6 @@ const summarizedChat = ref('')
 const isSummarizing = ref(false)
 
 const cardsStore = useKnowledgeCardsStore()
-
-const startChat = async () => {
-  isChatting.value = true
-  chatHistory.value = []
-  chatHistory.value.push({ role: 'assistant', content: "Hi! Ask me anything about this page." })
-}
 
 const sendChat = async () => {
   if (!userInput.value || !content.value || llm.selectedModel.isPaid) return
@@ -90,7 +85,12 @@ const sendChat = async () => {
 onMounted(() => {
   disposeContentExtracted = onMessage('contentExtracted', ({ data }) => {
     content.value = data;
-    isChatting.value = false;
+    isLoading.value = false;
+    chatHistory.value.push({ role: 'assistant', content: "Hi! Ask me anything about this page." })
+  });
+
+  disposeContentLoading = onMessage('contentLoading', () => {
+    isLoading.value = true;
     chatHistory.value = [];
     userInput.value = '';
     showContext.value = false;
@@ -113,6 +113,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (disposeContentExtracted) disposeContentExtracted()
+  if (disposeContentLoading) disposeContentLoading()
 })
 
 const summarizeChat = async () => {
@@ -180,10 +181,12 @@ function saveSummaryCard() {
 <template>
   <div class="h-full flex flex-col max-w-md mx-auto bg-background p-0">
     <div class="px-4 pt-4 pb-2 border-b shrink-0">
-      <h2 class="text-lg font-bold truncate text-primary">
-        {{ content?.title || 'Loading…' }}
+      <USkeleton v-if="isLoading" class="h-6 w-2/3 mb-1" />
+      <h2 v-else class="text-lg font-bold truncate text-primary">
+        {{ content?.title }}
       </h2>
-      <p v-if="content" class="text-xs text-muted break-all mb-2">{{ content.url }}</p>
+      <USkeleton v-if="isLoading" class="h-4 w-1/3 mb-2" />
+      <p v-else class="text-xs text-muted break-all mb-2">{{ content?.url }}</p>
       <div class="flex items-center gap-2 mb-2">
         <UButton
           v-if="content"
@@ -192,31 +195,22 @@ function saveSummaryCard() {
           icon="i-heroicons-eye"
           size="sm"
           variant="soft"
+          :disabled="isLoading"
         />
       </div>
       <div
-        v-if="showContext && content"
+        v-if="showContext"
         class="text-xs mt-2 bg-gray-100 dark:bg-gray-800 rounded p-2 max-h-28 overflow-y-auto"
       >
-        {{ content.content }}
+        <USkeleton v-if="isLoading" class="h-8 w-full" />
+        <template v-else>
+          {{ content?.content }}
+        </template>
       </div>
     </div>
 
     <div class="flex-1 min-h-0 flex flex-col px-2 py-2">
-      <div v-if="!content" class="flex-1 flex items-center justify-center text-muted italic text-sm">
-        Loading content…
-      </div>
-
-      <div v-else-if="content && !isChatting" class="flex justify-center mt-4">
-        <UButton
-          label="Start Chat About This Page"
-          @click="startChat"
-          color="primary"
-          class="w-full max-w-xs"
-        />
-      </div>
-
-      <div v-else-if="content && isChatting" class="flex-1 min-h-0 flex flex-col rounded-xl bg-background/60 shadow-sm p-2">
+      <div class="flex-1 min-h-0 flex flex-col rounded-xl bg-background/60 shadow-sm p-2">
         <UChatMessages
           :messages="chatHistory"
           :status="status"
@@ -227,7 +221,7 @@ function saveSummaryCard() {
         />
       </div>
 
-      <div v-if="isChatting && isSummarizing" class="flex justify-end mt-2">
+      <div v-if="isSummarizing" class="flex justify-end mt-2">
         <UButton
           loading
           disabled
@@ -237,9 +231,9 @@ function saveSummaryCard() {
       </div>
     </div>
 
-    <div v-if="isChatting" class="px-4 py-2 border-t bg-background shrink-0">
-      <UChatPrompt v-model="userInput" @submit="sendChat">
-        <UChatPromptSubmit :status="status" />
+    <div class="px-4 py-2 border-t bg-background shrink-0">
+      <UChatPrompt v-model="userInput" @submit="sendChat" :disabled="isLoading">
+        <UChatPromptSubmit :status="status" :disabled="isLoading"/>
       </UChatPrompt>
 
       <div class="flex gap-2 mt-2 items-center">

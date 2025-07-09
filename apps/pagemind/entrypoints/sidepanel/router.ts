@@ -3,7 +3,7 @@ import KnowledgeCards from '@/components/KnowledgeCards.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
-  { path: '/', redirect: '/chat' },
+  { path: '/', redirect: '/cards' },
   { path: '/chat', component: ChatAssistantPro },
   { path: '/cards', component: KnowledgeCards },
 ]
