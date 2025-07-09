@@ -1,2 +1,9 @@
 @import "tailwindcss";
-@import "@nuxt/ui";
+@import "@nuxt/ui-pro";
+
+html, body, #app, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
