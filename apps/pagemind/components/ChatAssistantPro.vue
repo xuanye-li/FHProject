@@ -3,7 +3,7 @@ import { useKnowledgeCardsStore } from '@/stores/knowledgeCards';
 import { useLlmStore } from '@/stores/llm'
 import { onMessage, sendMessage } from '@/utils/messaging.ts';
 import { nanoid } from 'nanoid'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { browser } from 'wxt/browser'
 
 interface ExtractedContent {
@@ -14,8 +14,9 @@ interface ExtractedContent {
 
 const content = ref<ExtractedContent | null>(null)
 const context = ref('')
-const showContext = ref(false)
+let disposeContentExtracted: (() => void) | undefined
 
+const showContext = ref(false)
 const isChatting = ref(false)
 const status = ref<'ready' | 'submitted' | 'streaming' | 'error'>('ready')
 const chatHistory = ref<{ role: 'user' | 'assistant', content: string }[]>([])
@@ -87,7 +88,7 @@ const sendChat = async () => {
 }
 
 onMounted(() => {
-  onMessage('contentExtracted', ({ data }) => {
+  disposeContentExtracted = onMessage('contentExtracted', ({ data }) => {
     content.value = data;
     isChatting.value = false;
     chatHistory.value = [];
@@ -110,7 +111,9 @@ onMounted(() => {
   });
 })
 
-
+onUnmounted(() => {
+  if (disposeContentExtracted) disposeContentExtracted()
+})
 
 const summarizeChat = async () => {
   if (!content.value) return
