@@ -217,8 +217,8 @@ function saveSummaryCard() {
         <UChatMessages
           :messages="chatHistory"
           :status="status"
-          :user="{ side: 'right', variant: 'solid' }"
-          :assistant="{ side: 'left', variant: 'solid'}"
+          :user="{ side: 'right', variant: 'subtle', avatar: { icon: 'i-lucide-user' } }"
+          :assistant="{ side: 'left', variant: 'subtle', avatar: { icon: 'i-lucide-bot' }}"
           :compact="true"
           class="flex-1 min-h-0 overflow-y-auto"
         />

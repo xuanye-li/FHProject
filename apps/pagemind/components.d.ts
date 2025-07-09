@@ -23,6 +23,7 @@ declare module 'vue' {
     UIcon: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
     USelect: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
     USelectMenu: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/SelectMenu.vue')['default']
+    UTabs: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Tabs.vue')['default']
     UTextarea: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue')['default']
     UTooltip: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Tooltip.vue')['default']
   }
