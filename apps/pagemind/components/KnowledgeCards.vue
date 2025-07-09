@@ -1,22 +1,55 @@
 <script setup lang="ts">
-
 import { useKnowledgeCardsStore } from '@/stores/knowledgeCards'
+import { computed, onMounted, ref, watch } from 'vue'
+
+const value = ref({})
 const cardsStore = useKnowledgeCardsStore()
+const carousel = ref(null)
+
 onMounted(() => {
   if (!cardsStore.loaded) cardsStore.loadCards()
 })
 
+const groups = computed(() => [
+  {
+    id: 'cards',
+    label: 'Knowledge Cards',
+    items: cardsStore.cards.map(card => ({
+      id: card.id,
+      label: card.title || '(no title)'
+    }))
+  }
+])
+
+watch(value, (newValue) => {
+  if (newValue && newValue.id) {
+    const idx = cardsStore.cards.findIndex(c => c.id === newValue.id)
+    if (carousel.value?.emblaApi && idx !== -1) {
+      carousel.value.emblaApi.scrollTo(idx)
+    }
+  }
+})
 </script>
+
 <template>
   <div class="w-full max-w-2xl mx-auto p-4 h-full">
     <h1 class="text-lg font-bold truncate text-primary mb-4">Knowledge Cards</h1>
+
+    <UCommandPalette
+      v-model="value"
+      :groups="groups"
+      placeholder="Search knowledge cards…"
+      class="mb-4"
+    />
+
     <UCarousel
       v-if="cardsStore.cards.length"
+      ref="carousel"
       :items="cardsStore.cards"
+      arrows
       class="w-full"
       slides-per-view="auto"
       gap="16"
-      arrows
       pagination
     >
       <template #default="{ item: card }">
@@ -58,7 +91,6 @@ onMounted(() => {
         </UCard>
       </template>
     </UCarousel>
-
     <div v-else class="text-xs text-muted mt-2">No cards saved yet.</div>
   </div>
 </template>

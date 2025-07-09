@@ -1,10 +1,25 @@
 <script setup lang="ts">
-// Placeholder for future settings logic
+import type { AccordionItem } from '@nuxt/ui'
+
+const items = ref<AccordionItem[]>([
+  {
+    label: 'Icons',
+    icon: 'i-lucide-smile',
+    content: 'You have nothing to do, @nuxt/icon will handle it automatically.'
+  },
+  {
+    label: 'Colors',
+    icon: 'i-lucide-swatch-book',
+    content: 'Choose a primary and a neutral color from your Tailwind CSS theme.'
+  },
+  {
+    label: 'Components',
+    icon: 'i-lucide-box',
+    content: 'You can customize components by using the `class` / `ui` props or in your app.config.ts.'
+  }
+])
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-full p-8">
-    <h1 class="text-2xl font-bold mb-2">Settings</h1>
-    <p class="text-muted">Here you can adjust your preferences (coming soon).</p>
-  </div>
+  <UAccordion :items="items" />
 </template>

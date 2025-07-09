@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UAccordion: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Accordion.vue')['default']
     UAlert: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Alert.vue')['default']
     UAvatar: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Avatar.vue')['default']
     UBadge: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Badge.vue')['default']
@@ -24,7 +25,9 @@ declare module 'vue' {
     UContainer: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Container.vue')['default']
     UIcon: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
     ULink: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/vue/components/Link.vue')['default']
+    UModal: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Modal.vue')['default']
     UPageCard: typeof import('./../../node_modules/.pnpm/@nuxt+ui-pro@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jw_e2bb8033560662426afabb5f89672e5d/node_modules/@nuxt/ui-pro/dist/runtime/components/PageCard.vue')['default']
+    UPageHero: typeof import('./../../node_modules/.pnpm/@nuxt+ui-pro@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jw_e2bb8033560662426afabb5f89672e5d/node_modules/@nuxt/ui-pro/dist/runtime/components/PageHero.vue')['default']
     USelect: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
     USelectMenu: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/SelectMenu.vue')['default']
     USkeleton: typeof import('./../../node_modules/.pnpm/@nuxt+ui@3.2.0_@babel+parser@7.28.0_db0@0.3.2_embla-carousel@8.6.0_ioredis@5.6.1_jwt-de_04eeb33777c46e00b07af85a42d8f244/node_modules/@nuxt/ui/dist/runtime/components/Skeleton.vue')['default']
