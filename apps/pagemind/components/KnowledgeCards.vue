@@ -10,11 +10,19 @@ onMounted(() => {
   if (!cardsStore.loaded) cardsStore.loadCards()
 })
 
+const showJobs = ref(true)
+
+const filteredCards = computed(() => {
+  return showJobs.value
+    ? cardsStore.cards.filter(c => c.tags.includes('job'))
+    : cardsStore.cards.filter(c => !c.tags.includes('job'))
+})
+
 const groups = computed(() => [
   {
-    id: 'cards',
-    label: 'Knowledge Cards',
-    items: cardsStore.cards.map(card => ({
+    id: showJobs.value ? 'job-cards' : 'knowledge-cards',
+    label: showJobs.value ? 'Job Cards' : 'Knowledge Cards',
+    items: filteredCards.value.map(card => ({
       id: card.id,
       label: card.title || '(no title)'
     }))
@@ -23,7 +31,7 @@ const groups = computed(() => [
 
 watch(value, (newValue) => {
   if (newValue && newValue.id) {
-    const idx = cardsStore.cards.findIndex(c => c.id === newValue.id)
+    const idx = filteredCards.value.findIndex(c => c.id === newValue.id)
     if (carousel.value?.emblaApi && idx !== -1) {
       carousel.value.emblaApi.scrollTo(idx)
     }
@@ -33,7 +41,18 @@ watch(value, (newValue) => {
 
 <template>
   <div class="w-full max-w-2xl mx-auto p-4 h-full">
-    <h1 class="text-lg font-bold truncate text-primary mb-4">Knowledge Cards</h1>
+
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-lg font-bold truncate text-primary">
+        {{ showJobs ? 'Job Cards' : 'Knowledge Cards' }}
+      </h1>
+      <USwitch
+      v-model="showJobs"
+      on-icon="i-heroicons-briefcase"
+      off-icon="i-heroicons-light-bulb"
+      label="Jobs only"
+    />
+    </div>
 
     <UCommandPalette
       v-model="value"
@@ -43,9 +62,9 @@ watch(value, (newValue) => {
     />
 
     <UCarousel
-      v-if="cardsStore.cards.length"
+      v-if="filteredCards.length"
       ref="carousel"
-      :items="cardsStore.cards"
+      :items="filteredCards"
       arrows
       class="w-full"
       slides-per-view="auto"

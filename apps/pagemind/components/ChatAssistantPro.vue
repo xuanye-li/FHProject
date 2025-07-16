@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useJobExtractor } from '@/composables/useJobExtractor'
+import { useJobSummaryStore } from '@/stores/jobSummary'
 import { useKnowledgeCardsStore } from '@/stores/knowledgeCards';
 import { useLlmStore } from '@/stores/llm'
 import { onMessage, sendMessage } from '@/utils/messaging.ts';
@@ -29,6 +31,8 @@ const summarizedChat = ref('')
 const isSummarizing = ref(false)
 
 const cardsStore = useKnowledgeCardsStore()
+
+const jobStore = useJobSummaryStore()
 
 const sendChat = async () => {
   if (!userInput.value || !content.value || llm.selectedModel.isPaid) return
@@ -87,6 +91,10 @@ onMounted(() => {
     content.value = data;
     isLoading.value = false;
     chatHistory.value.push({ role: 'assistant', content: "Hi! Ask me anything about this page." })
+
+    if (data) {
+      useJobExtractor(data.title, data.content)
+    }
   });
 
   disposeContentLoading = onMessage('contentLoading', () => {
@@ -94,6 +102,8 @@ onMounted(() => {
     chatHistory.value = [];
     userInput.value = '';
     showContext.value = false;
+
+    jobStore.clearJobSummary()
   });
 
   browser.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
@@ -176,6 +186,35 @@ function saveSummaryCard() {
   summarizedChat.value = ''
 }
 
+function saveJobSummaryAsCard() {
+  if (!jobStore.data || !content.value) return
+
+  const formattedRequirements = jobStore.data.requirements.length
+    ? `✅ Requirements:\n  - ${jobStore.data.requirements.join('\n  - ')}`
+    : '✅ Requirements: Not specified'
+
+  const formattedKeywords = jobStore.data.keywords.length
+    ? `🔑 Keywords: ${jobStore.data.keywords.join(', ')}`
+    : '🔑 Keywords: Not specified'
+
+  const highlights = [
+    `🏢 Company: ${jobStore.data.company}`,
+    `💰 Salary: ${jobStore.data.salary}`,
+    `📍 Location: ${jobStore.data.location}`,
+    formattedRequirements,
+    formattedKeywords
+  ]
+  cardsStore.addCard({
+    id: nanoid(),
+    title: jobStore.data.job_title,
+    highlights,
+    tags: ['job'],
+    sourceUrl: content.value.url,
+    timestamp: new Date().toISOString(),
+    model: llm.selectedModel?.label ?? '',
+  })
+}
+
 </script>
 
 <template>
@@ -254,6 +293,33 @@ function saveSummaryCard() {
           :loading="isSummarizing"
           class="ml-2"
         />
+      </div>
+      <div v-if="jobStore.data" class="flex flex-wrap gap-2 mt-3">
+        <UButton size="sm" variant="soft" label="Job Title" @click="jobStore.setActiveSection('job_title')" />
+        <UButton size="sm" variant="soft" label="Company" @click="jobStore.setActiveSection('company')" />
+        <UButton size="sm" variant="soft" label="Salary" @click="jobStore.setActiveSection('salary')" />
+        <UButton size="sm" variant="soft" label="Location" @click="jobStore.setActiveSection('location')" />
+        <UButton size="sm" variant="soft" label="Requirements" @click="jobStore.setActiveSection('requirements')" />
+        <UButton size="sm" variant="soft" label="Keywords" @click="jobStore.setActiveSection('keywords')" />
+        <UButton
+          label="Save Job"
+          color="primary"
+          size="sm"
+          variant="soft"
+          @click="saveJobSummaryAsCard"
+        />
+      </div>
+
+
+      <div v-if="jobStore.data && jobStore.activeSection" class="mt-2 p-2 bg-secondary/40 rounded">
+        <template v-if="Array.isArray(jobStore.data[jobStore.activeSection])">
+          <ul class="list-disc list-inside text-sm">
+            <li v-for="item in jobStore.data[jobStore.activeSection] as string[]" :key="item">{{ item }}</li>
+          </ul>
+        </template>
+        <template v-else>
+          <p class="text-sm">{{ jobStore.data[jobStore.activeSection] }}</p>
+        </template>
       </div>
     </div>
 
