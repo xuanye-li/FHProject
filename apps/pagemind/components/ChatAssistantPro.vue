@@ -33,6 +33,7 @@ const isSummarizing = ref(false)
 const cardsStore = useKnowledgeCardsStore()
 
 const jobStore = useJobSummaryStore()
+const jobSaved = ref(false)
 
 const sendChat = async () => {
   if (!userInput.value || !content.value || llm.selectedModel.isPaid) return
@@ -186,24 +187,22 @@ function saveSummaryCard() {
   summarizedChat.value = ''
 }
 
-function saveJobSummaryAsCard() {
+function saveJobSummaryCard() {
   if (!jobStore.data || !content.value) return
-
-  const formattedRequirements = jobStore.data.requirements.length
-    ? `✅ Requirements:\n  - ${jobStore.data.requirements.join('\n  - ')}`
-    : '✅ Requirements: Not specified'
-
-  const formattedKeywords = jobStore.data.keywords.length
-    ? `🔑 Keywords: ${jobStore.data.keywords.join(', ')}`
-    : '🔑 Keywords: Not specified'
 
   const highlights = [
     `🏢 Company: ${jobStore.data.company}`,
     `💰 Salary: ${jobStore.data.salary}`,
     `📍 Location: ${jobStore.data.location}`,
-    formattedRequirements,
-    formattedKeywords
+    '✅ Requirements:'
   ]
+
+  highlights.push(...jobStore.data.requirements.map(req => `- ${req}`))
+
+  if (jobStore.data.keywords.length) {
+    highlights.push(`🔑 Keywords: ${jobStore.data.keywords.join(', ')}`)
+  }
+
   cardsStore.addCard({
     id: nanoid(),
     title: jobStore.data.job_title,
@@ -213,6 +212,16 @@ function saveJobSummaryAsCard() {
     timestamp: new Date().toISOString(),
     model: llm.selectedModel?.label ?? '',
   })
+
+  jobSaved.value = true
+}
+
+function toggleJobSection(section: keyof JobSummary) {
+  if (jobStore.activeSection === section) {
+    jobStore.setActiveSection(null as any)
+  } else {
+    jobStore.setActiveSection(section)
+  }
 }
 
 </script>
@@ -295,18 +304,59 @@ function saveJobSummaryAsCard() {
         />
       </div>
       <div v-if="jobStore.data" class="flex flex-wrap gap-2 mt-3">
-        <UButton size="sm" variant="soft" label="Job Title" @click="jobStore.setActiveSection('job_title')" />
-        <UButton size="sm" variant="soft" label="Company" @click="jobStore.setActiveSection('company')" />
-        <UButton size="sm" variant="soft" label="Salary" @click="jobStore.setActiveSection('salary')" />
-        <UButton size="sm" variant="soft" label="Location" @click="jobStore.setActiveSection('location')" />
-        <UButton size="sm" variant="soft" label="Requirements" @click="jobStore.setActiveSection('requirements')" />
-        <UButton size="sm" variant="soft" label="Keywords" @click="jobStore.setActiveSection('keywords')" />
+<UButton
+  size="sm"
+  variant="soft"
+  :color="jobStore.activeSection === 'job_title' ? 'primary' : undefined"
+  label="Job Title"
+  @click="toggleJobSection('job_title')"
+/>
         <UButton
-          label="Save Job"
-          color="primary"
+  size="sm"
+  variant="soft"
+  :color="jobStore.activeSection === 'company' ? 'primary' : undefined"
+  label="Company"
+  @click="toggleJobSection('company')"
+/>
+
+<UButton
+  size="sm"
+  variant="soft"
+  :color="jobStore.activeSection === 'salary' ? 'primary' : undefined"
+  label="Salary"
+  @click="toggleJobSection('salary')"
+/>
+
+<UButton
+  size="sm"
+  variant="soft"
+  :color="jobStore.activeSection === 'location' ? 'primary' : undefined"
+  label="Location"
+  @click="toggleJobSection('location')"
+/>
+
+<UButton
+  size="sm"
+  variant="soft"
+  :color="jobStore.activeSection === 'requirements' ? 'primary' : undefined"
+  label="Requirements"
+  @click="toggleJobSection('requirements')"
+/>
+
+<UButton
+  size="sm"
+  variant="soft"
+  :color="jobStore.activeSection === 'keywords' ? 'primary' : undefined"
+  label="Keywords"
+  @click="toggleJobSection('keywords')"
+/>
+        <UButton
+          :label="jobSaved ? '✅ Saved' : 'Save Job'"
+          :color="jobSaved ? 'green' : 'primary'"
           size="sm"
-          variant="soft"
-          @click="saveJobSummaryAsCard"
+          :variant="jobSaved ? 'solid' : 'soft'"
+          :disabled="jobSaved"
+          @click="saveJobSummaryCard"
         />
       </div>
 

@@ -49,7 +49,7 @@ If it IS a job posting, respond ONLY with a JSON object:
   "requirements": ["..."],
   "keywords": ["..."]
 }
-
+Please be very thorough with keyword identification, at least 10 or more. Keywords are terms like technologies and programming languages but not details like location or salary.
 If it is NOT a job posting, respond exactly with:
 job_posting: false
 

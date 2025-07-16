@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import type { AccordionItem } from '@nuxt/ui'
+import { ref } from 'vue'
 
-const items = ref<AccordionItem[]>([
-  {
-    label: 'Icons',
-    icon: 'i-lucide-smile',
-    content: 'You have nothing to do, @nuxt/icon will handle it automatically.'
-  },
-  {
-    label: 'Colors',
-    icon: 'i-lucide-swatch-book',
-    content: 'Choose a primary and a neutral color from your Tailwind CSS theme.'
-  },
-  {
-    label: 'Components',
-    icon: 'i-lucide-box',
-    content: 'You can customize components by using the `class` / `ui` props or in your app.config.ts.'
-  }
-])
+const open = ref(true)
+const apiKey = ref('')
 </script>
 
 <template>
-  <UAccordion :items="items" />
+  <UCard>
+    <UButton
+      @click="open = !open"
+      icon="i-lucide-key-round"
+      variant="soft"
+    >
+      API Settings
+    </UButton>
+
+    <UCollapse v-model="open">
+      <div class="p-3 space-y-3">
+        <UFormGroup label="API Key">
+          <UInput v-model="apiKey" placeholder="Enter API key" type="password" />
+        </UFormGroup>
+        <UButton color="primary">Save API Key</UButton>
+      </div>
+    </UCollapse>
+  </UCard>
 </template>
