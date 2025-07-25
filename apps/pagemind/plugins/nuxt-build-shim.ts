@@ -1,5 +1,3 @@
-// Stubs for all Nuxt virtual build imports
-
 export const appId = 'shim-app'
 export const multiApp = false
 export const chunkErrorEvent = false
@@ -28,4 +26,4 @@ export const cookieStore = {}
 const __appConfig = {}
 export default __appConfig
 
-console.log('[nuxt-build-shim] virtual module stubs active')
+console.log('[nuxt-build-shim]')

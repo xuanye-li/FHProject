@@ -35,7 +35,10 @@ const selectedTab = computed({
       </template>
     </UTabs>
     <div class="flex-1 min-h-0 overflow-auto">
+          <Suspense>
       <RouterView />
+    </Suspense>
+
     </div>
   </div>
 </template>

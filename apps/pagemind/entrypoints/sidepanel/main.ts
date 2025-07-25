@@ -1,3 +1,6 @@
+// ⬇️ MUST BE FIRST so Nuxt composables see the patched context
+import '@/plugins/nuxt-runtime-shim'
+
 import { createApp } from 'vue'
 import '@/assets/main.css'
 import ui from '@nuxt/ui/vue-plugin'
